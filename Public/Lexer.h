@@ -17,8 +17,8 @@ enum class TokenType
     SEMICOLON,
     ASSIGNMENT,
     EQUALS,
-    LEFT_PARENTHESIS,
-    RIGHT_PARENTHESIS
+    LEFT_PARENTHESES,
+    RIGHT_PARENTHESES
 };
 
 struct Token
@@ -46,11 +46,11 @@ class Lexer
         void initialiseKeywords() noexcept;
         bool endOfFile() const { return mPosition >= mInput.size(); }
         const char next() {  return mInput[mPosition++]; }
-        const char peek() { return endOfFile() ? '\0' : mInput[mPosition]; }
+        const char peek() const { return endOfFile() ? '\0' : mInput[mPosition]; }
         bool nextChar(char const c);
 
-        const Token readNumber(char c) const;
-        const Token readIdentifier(char c) const;
+        const Token readNumber(char c);
+        const Token readIdentifier(char c);
         const Token readString(char c) const;
  
         const bool isAlphabetical(char const c) const;

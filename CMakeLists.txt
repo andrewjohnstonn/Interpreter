@@ -5,6 +5,8 @@ project(Interpreter)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+add_definitions("-Wall" "-g")
+
 option(BUILD_TESTS "build bdd tests for interpreter: defaults to ON" ON)
 
 file(GLOB interpreter_source "${CMAKE_CURRENT_SOURCE_DIR}/Public/*.h" "${CMAKE_CURRENT_SOURCE_DIR}/Private/*.cpp")

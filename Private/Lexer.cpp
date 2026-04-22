@@ -28,8 +28,8 @@ const std::vector<Token> Lexer::tokenise()
         {
             case '+': tokens.emplace_back(TokenType::PLUS, "+", mLine); continue;
             case '-': tokens.emplace_back(TokenType::MINUS, "-", mLine); continue;
-            case '(': tokens.emplace_back(TokenType::LEFT_PARENTHESIS, "(", mLine); continue;
-            case ')': tokens.emplace_back(TokenType::RIGHT_PARENTHESIS, ")", mLine); continue;
+            case '(': tokens.emplace_back(TokenType::LEFT_PARENTHESES, "(", mLine); continue;
+            case ')': tokens.emplace_back(TokenType::RIGHT_PARENTHESES, ")", mLine); continue;
             case ';': tokens.emplace_back(TokenType::SEMICOLON, ";", mLine);
         }
         //two char tokens (==, !=)
@@ -66,17 +66,29 @@ bool Lexer::nextChar(char const c)
     return true;
 }
 
-const Token Lexer::readNumber(char c) const
+const Token Lexer::readNumber(char c)
 {
     std::string number{ c };
+
+    while( isNumeric(peek()) ){
+        number += next();
+    }
 
     return Token{TokenType::NUMBER, number, mLine};
 }
 
-const Token Lexer::readIdentifier(char c) const
+const Token Lexer::readIdentifier(char c)
 {
     std::string identifier { c };
 
+    while( isAlphanumeric(peek()) ){
+        identifier += next();
+    }
+    
+    if(mKeywords.count(identifier) != 0) {
+        return Token{mKeywords[identifier], identifier, mLine};    
+    }
+    
     return Token{TokenType::IDENTIFIER, identifier, mLine};
 }
 
@@ -102,7 +114,7 @@ const bool Lexer::isAlphanumeric(char const c) const
 const bool Lexer::isNumeric(char const c) const
 {
     return(
-        (c >= 0) && (c <= 9)
+        (c >= 48) && (c <= 57)
     );
 }
 
